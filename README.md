@@ -33,4 +33,35 @@ to open the ports, gcloud compute firewall-rules create rule11 --allow tcp:8080
    E.g.
    Create a replication controller for creating 3 replicas of httpd (web server).
    
+   ----ReplicationController is out dated and replaced by replicaSet and which has an additional specification called "selector" field.
+
+   this selecetor uses child element called "matchlabels" , where it will search for pods based on a specific label name and adds them to the clusters.
+
+   E.g. Create a replicaset file to start 4 tomcat replicas and then perform scaling.
+---
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+ name: tomcat-rs
+ labels:
+  author: durgasoft
+  type: webserver
+spec: 
+ replicas: 4
+ selector:
+  matchlabels: 
+   type: webserver
+ template:
+  metadata:
+   name: tomcat-pod
+   labels:
+    type: webserver
+  spec:
+  containers:
+   - name mywebserver
+     image tomcat
+     port:
+      - container Port: 80
+        hostPort: 9090
+...   
    
