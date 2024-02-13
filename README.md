@@ -28,7 +28,7 @@ to open the ports, gcloud compute firewall-rules create rule11 --allow tcp:8080
                    gcloud compute firewall-rules create rule22 --allow tcp-9090
 
    ------------------------
-   **ReplicationController**
+II).   **ReplicationController**
    here we can perform load balancibg and scalling.
    E.g.
    Create a replication controller for creating 3 replicas of httpd (web server).
@@ -38,6 +38,8 @@ to open the ports, gcloud compute firewall-rules create rule11 --allow tcp:8080
    this selecetor uses child element called "matchlabels" , where it will search for pods based on a specific label name and adds them to the clusters.
 
    E.g. Create a replicaset file to start 4 tomcat replicas and then perform scaling.
+
+vim replica-set.yml
 ---
 apiVersion: apps/v1
 kind: ReplicaSet
@@ -49,7 +51,7 @@ metadata:
 spec: 
  replicas: 4
  selector:
-  matchlabels: 
+  matchLabels: 
    type: webserver
  template:
   metadata:
@@ -60,8 +62,31 @@ spec:
   containers:
    - name mywebserver
      image tomcat
-     port:
+     ports:
       - container Port: 80
         hostPort: 9090
 ...   
    
+kubectl create -f replica-set.yml
+kubectl get replicaset
+
+**scaling Option 1:** code level
+to make changes in the file, go to yml file and perform scaling 4pods to 6pods and then command,
+
+kubectl replace -f replica-set.yml
+
+**scaling Option 2:** command level
+
+kubectl scale --replicas=2 -f replica-set.yml
+
+III). **Service Object:**
+used for network load balancing and port mapping
+this Oject uses 3 ports,
+1. Target port - It is pod or container port
+2. port - Refers to service port
+3. hostport - Refers to host machine port to make it accessable from external network.
+
+kubectl get all
+
+
+
