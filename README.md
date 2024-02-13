@@ -30,4 +30,7 @@ to open the ports, gcloud compute firewall-rules create rule11 --allow tcp:8080
    ------------------------
    **ReplicationController**
    here we can perform load balancibg and scalling.
+   E.g.
+   Create a replication controller for creating 3 replicas of httpd (web server).
+   
    
